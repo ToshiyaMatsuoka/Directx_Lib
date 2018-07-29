@@ -11,9 +11,5 @@ enum FONT {
 	FONT,
 	FONTMAX
 };
-enum SOUND {
-	SOUND,
-	SOUNDMAX
-};
 
 #endif
