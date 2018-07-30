@@ -153,6 +153,7 @@ PADSTATE GetButton(ButtonIndex index);
 bool GetAnalogL(Analog analogstate);
 bool GetAnalogR(Analog AnalogState);
 void CheckButtonState(WORD, int);
+void BottonCheck();
 //“–‚½‚è”»’è
 ////‰~‚Æ‰~‚Ì“–‚½‚è”»’è
 bool CtoCContact(float PosX1, float PosY1, float Radius1, float PosX2, float PosY2, float Radius2);

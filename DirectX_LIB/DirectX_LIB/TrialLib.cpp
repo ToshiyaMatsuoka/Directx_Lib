@@ -906,7 +906,26 @@ void CheckButtonState(WORD ButtomID, int ButtomIndex)
 	}
 
 }
+void BottonCheck() {
 
+	CheckButtonState(XINPUT_GAMEPAD_A, ButtonA);
+	CheckButtonState(XINPUT_GAMEPAD_B, ButtonB);
+	CheckButtonState(XINPUT_GAMEPAD_X, ButtonX);
+	CheckButtonState(XINPUT_GAMEPAD_Y, ButtonY);
+	CheckButtonState(XINPUT_GAMEPAD_START, ButtonStart);
+	CheckButtonState(XINPUT_GAMEPAD_BACK, ButtonBack);
+	CheckButtonState(XINPUT_GAMEPAD_LEFT_SHOULDER, ButtonLB);
+	CheckButtonState(XINPUT_GAMEPAD_RIGHT_SHOULDER, ButtonRB);
+	CheckButtonState(XINPUT_GAMEPAD_DPAD_UP, ButtonUP);
+	CheckButtonState(XINPUT_GAMEPAD_DPAD_DOWN, ButtonDOWN);
+	CheckButtonState(XINPUT_GAMEPAD_DPAD_LEFT, ButtonLEFT);
+	CheckButtonState(XINPUT_GAMEPAD_DPAD_RIGHT, ButtonRIGHT);
+	CheckButtonState(XINPUT_GAMEPAD_START, ButtonStart);
+	CheckButtonState(XINPUT_GAMEPAD_BACK, ButtonBack);
+	CheckButtonState(XINPUT_GAMEPAD_LEFT_SHOULDER, ButtonLB);
+	CheckButtonState(XINPUT_GAMEPAD_RIGHT_SHOULDER, ButtonRB);
+
+}
 //“–‚½‚è”»’è
 ////‰~‚Æ‰~‚Ì“–‚½‚è”»’è
 bool CtoCContact(float PosX1,float PosY1,float Radius1, float PosX2, float PosY2, float Radius2) {
