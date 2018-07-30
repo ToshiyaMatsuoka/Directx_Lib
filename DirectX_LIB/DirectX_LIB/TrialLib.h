@@ -151,6 +151,7 @@ bool InputKEY(int KeyName);
 void GetControl(int GamePadNumber);
 PADSTATE GetButton(ButtonIndex index);
 bool GetAnalogL(Analog analogstate);
+bool GetAnalogR(Analog AnalogState);
 void CheckButtonState(WORD, int);
 //“–‚½‚è”»’è
 ////‰~‚Æ‰~‚Ì“–‚½‚è”»’è

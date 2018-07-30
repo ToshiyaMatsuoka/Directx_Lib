@@ -843,6 +843,39 @@ bool GetAnalogL(Analog AnalogState)
 	}
 	return false;
 }
+bool GetAnalogR(Analog AnalogState)
+{
+	switch (AnalogState)
+	{
+	case ANALOGUP:
+		if (g_Xinput.Gamepad.sThumbRY > -65535 / 4)
+		{
+			return true;
+		}
+		break;
+	case ANALOGDOWN:
+		if (g_Xinput.Gamepad.sThumbRY < 65535 / 4)
+		{
+			return true;
+		}
+		break;
+	case ANALOGLEFT:
+		if (g_Xinput.Gamepad.sThumbRX <-65535 / 4)
+		{
+			return true;
+		}
+		break;
+	case ANALOGRIGHT:
+		if (g_Xinput.Gamepad.sThumbRX >65535 / 4)
+		{
+			return true;
+		}
+		break;
+	default:
+		return false;
+	}
+	return false;
+}
 
 void CheckButtonState(WORD ButtomID, int ButtomIndex)
 {
