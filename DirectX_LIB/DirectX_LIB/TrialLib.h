@@ -97,12 +97,14 @@ LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HRESULT InitD3d(HWND hWnd, LPCSTR pSrcFile);
 HRESULT InitDinput(HWND hWnd);
 HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile);
+HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight);
 
 void FreeDx();
 
 //WINAPIの空ウィンドウ生成
 int InitWindow(LPCSTR WndName, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
 int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, int ResolutionWidth, int ResolutionHeight, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
 
 int FlameRoop(void gameroop(void));
 

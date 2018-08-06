@@ -140,7 +140,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 	}
 	else InitDinput(hWnd);
 	//Display Mode の設定
-	g_pDirect3D->GetAdapterDisplayMode(//g_pDirect3D が nullptr
+	g_pDirect3D->GetAdapterDisplayMode(
 		D3DADAPTER_DEFAULT,
 		&g_D3DdisplayMode);
 
@@ -181,6 +181,73 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 
 	return S_OK;
 }
+HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int ResolutionHeight) {
+	//ダイレクト３Dの初期化関数を呼ぶ
+	if (FALSE(InitD3d(hWnd, pSrcFile)))
+	{
+		MessageBox(0, "DirectXの初期化に失敗しました", "", MB_OK);
+		return 0;
+	}
+	else InitD3d(hWnd, pSrcFile);
+	//ダイレクトインプットの初期化関数を呼ぶ
+	if (FAILED(InitDinput(hWnd)))
+	{
+		MessageBox(0, "DirectInputの初期化に失敗しました", "", MB_OK);
+		return E_FAIL;
+	}
+	else InitDinput(hWnd);
+	//Display Mode の設定
+	g_pDirect3D->GetAdapterDisplayMode(
+		D3DADAPTER_DEFAULT,
+		&g_D3DdisplayMode);
+
+	ZeroMemory(&g_D3dPresentParameters, sizeof(D3DPRESENT_PARAMETERS));
+	g_D3dPresentParameters.BackBufferWidth = ResolutionWidth;
+	g_D3dPresentParameters.BackBufferHeight = ResolutionHeight;
+	g_D3dPresentParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
+	g_D3dPresentParameters.BackBufferCount = 1;
+	g_D3dPresentParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
+	g_D3dPresentParameters.MultiSampleQuality = 0;
+	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	g_D3dPresentParameters.hDeviceWindow = hWnd;
+	g_D3dPresentParameters.Windowed = FALSE;
+	g_D3dPresentParameters.EnableAutoDepthStencil = FALSE;
+	g_D3dPresentParameters.AutoDepthStencilFormat = D3DFMT_A1R5G5B5;
+	g_D3dPresentParameters.Flags = 0;
+	g_D3dPresentParameters.FullScreen_RefreshRateInHz = 0;
+	g_D3dPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+
+	//デバイスを作る
+	g_pDirect3D->CreateDevice(
+		D3DADAPTER_DEFAULT,
+		D3DDEVTYPE_HAL,
+		hWnd,
+		D3DCREATE_HARDWARE_VERTEXPROCESSING,
+		&g_D3dPresentParameters, &g_pD3Device);
+	//生成チェック
+	if (!g_pD3Device)
+	{
+		//生成に失敗したらDirectXオブジェクトを開放して終了する
+		g_pDirect3D->Release();
+		return E_FAIL;
+	}
+	//描画設定
+	g_pD3Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
+	g_pD3Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);  //SRCの設定
+	g_pD3Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	g_pD3Device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	g_pD3Device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+
+	g_pD3Device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	g_pD3Device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+
+	//頂点に入れるデータを設定
+	g_pD3Device->SetFVF(D3DFVF_CUSTOMVERTEX);
+
+	return S_OK;
+}
+
 //WINAPIの空ウィンドウ生成
 int InitWindow(LPCSTR WndName,int WIDTH,int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance,int IconIDI, LPCSTR pSrcFile) {
 	
@@ -264,6 +331,48 @@ int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hI
 	}
 
 	if (FAILED(InitDirectX(*hWnd, pSrcFile)))
+	{
+		return 0;
+	}
+}
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, int ResolutionWidth, int ResolutionHeight, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile) {
+
+	WNDCLASS Wndclass;
+
+	//Windows情報の設定
+	Wndclass.style = CS_HREDRAW | CS_VREDRAW;
+	Wndclass.lpfnWndProc = WndProc;
+	Wndclass.cbClsExtra = Wndclass.cbWndExtra = 0;
+	Wndclass.hInstance = hInst;
+	Wndclass.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IconIDI));
+	Wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	Wndclass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	Wndclass.lpszMenuName = NULL;
+	Wndclass.lpszClassName = WndName;
+
+	RegisterClass(&Wndclass);
+	//Windowの登録
+
+	//Windowの生成
+	*hWnd = CreateWindow(
+		WndName,						//ウィンドウのクラス名
+		WndName,  				//ウィンドウのタイトル
+		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ウィンドウスタイル
+		CW_USEDEFAULT,						// ウィンドウの横方向の位置x
+		CW_USEDEFAULT,						// ウィンドウの縦方向の位置y
+		WIDTH,							// Width（幅）
+		HEIGHT,							// Height（高さ）
+		NULL,
+		NULL,
+		hInstance,							// アプリケーションインスタンスのハンドル
+		NULL
+	);
+
+	if (!hWnd) {
+		return 0;
+	}
+
+	if (FAILED(InitDirectXFullscreen(*hWnd, pSrcFile,ResolutionWidth,ResolutionHeight)))
 	{
 		return 0;
 	}
