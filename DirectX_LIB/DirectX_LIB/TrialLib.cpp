@@ -93,6 +93,48 @@ HRESULT InitD3d(HWND hWnd, LPCSTR pSrcFile)
 	}
 	return S_OK;
 }
+HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile)
+{
+	// 「Direct3D」オブジェクトの作成
+	if (!(g_pDirect3D = Direct3DCreate9(D3D_SDK_VERSION)))
+	{
+		MessageBox(0, "Direct3Dの作成に失敗しました", "", MB_OK);
+		return E_FAIL;
+	}
+
+	// 「DIRECT3Dデバイス」オブジェクトの作成
+	D3DPRESENT_PARAMETERS d3dpp;
+	ZeroMemory(&d3dpp, sizeof(d3dpp));
+
+	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
+	d3dpp.BackBufferCount = 1;
+	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	d3dpp.Windowed = false;
+
+	if (FAILED(g_pDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
+		D3DCREATE_MIXED_VERTEXPROCESSING,
+		&d3dpp, &g_pD3Device)))
+	{
+		MessageBox(0, "HALモードでDIRECT3Dデバイスを作成できません\nREFモードで再試行します", NULL, MB_OK);
+		if (FAILED(g_pDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_REF, hWnd,
+			D3DCREATE_MIXED_VERTEXPROCESSING,
+			&d3dpp, &g_pD3Device)))
+		{
+			MessageBox(0, "DIRECT3Dデバイスの作成に失敗しました", NULL, MB_OK);
+			return E_FAIL;
+		}
+	}
+	//「テクスチャオブジェクト」の作成
+	if (FAILED(D3DXCreateTextureFromFileEx(g_pD3Device, pSrcFile, 100, 100, 0, 0, D3DFMT_UNKNOWN,
+		D3DPOOL_DEFAULT, D3DX_FILTER_NONE, D3DX_DEFAULT,
+		0xff000000, NULL, NULL, &g_pTexture[TEXMAX])))
+	{
+		MessageBox(0, "テクスチャの作成に失敗しました", "", MB_OK);
+		return E_FAIL;
+	}
+	return S_OK;
+}
+
 HRESULT InitDinput(HWND hWnd) {
 	HRESULT hr;
 	// 「DirectInput」オブジェクトの作成
@@ -183,7 +225,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 }
 HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int ResolutionHeight) {
 	//ダイレクト３Dの初期化関数を呼ぶ
-	if (FALSE(InitD3d(hWnd, pSrcFile)))
+	if (FALSE(InitD3dFullscreen(hWnd, pSrcFile)))
 	{
 		MessageBox(0, "DirectXの初期化に失敗しました", "", MB_OK);
 		return 0;
