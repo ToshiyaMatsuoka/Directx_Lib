@@ -202,6 +202,12 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 		&g_D3DdisplayMode);
 
 	ZeroMemory(&g_D3dPresentParameters, sizeof(D3DPRESENT_PARAMETERS));
+	g_D3dPresentParameters.BackBufferFormat = g_D3DdisplayMode.Format;
+	g_D3dPresentParameters.BackBufferCount = 1;
+	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
+	g_D3dPresentParameters.Windowed = TRUE;
+
+	ZeroMemory(&g_D3dPresentParameters, sizeof(D3DPRESENT_PARAMETERS));
 	g_D3dPresentParameters.BackBufferWidth = ResolutionWidth;
 	g_D3dPresentParameters.BackBufferHeight = ResolutionHeight;
 	g_D3dPresentParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
