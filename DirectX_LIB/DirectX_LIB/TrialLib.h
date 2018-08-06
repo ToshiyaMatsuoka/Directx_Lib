@@ -105,7 +105,7 @@ void FreeDx();
 //WINAPIの空ウィンドウ生成
 int InitWindow(LPCSTR WndName, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
 int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
-int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, int ResolutionWidth, int ResolutionHeight, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile);
 
 int FlameRoop(void gameroop(void));
 

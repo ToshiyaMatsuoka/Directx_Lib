@@ -109,7 +109,9 @@ HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile)
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.BackBufferCount = 1;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
-	d3dpp.Windowed = false;
+	d3dpp.Windowed = true;
+	//d3dpp.EnableAutoDepthStencil = TRUE;
+	//d3dpp.AutoDepthStencilFormat = D3DFMT_D24S8;
 
 	if (FAILED(g_pDirect3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
 		D3DCREATE_MIXED_VERTEXPROCESSING,
@@ -174,6 +176,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 		return 0;
 	}
 	else InitD3d(hWnd, pSrcFile);
+
 	//ダイレクトインプットの初期化関数を呼ぶ
 	if (FAILED(InitDinput(hWnd)))
 	{
@@ -181,6 +184,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 		return E_FAIL;
 	}
 	else InitDinput(hWnd);
+
 	//Display Mode の設定
 	g_pDirect3D->GetAdapterDisplayMode(
 		D3DADAPTER_DEFAULT,
@@ -230,7 +234,8 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 		MessageBox(0, "DirectXの初期化に失敗しました", "", MB_OK);
 		return 0;
 	}
-	else InitD3d(hWnd, pSrcFile);
+	else InitD3dFullscreen(hWnd, pSrcFile);
+
 	//ダイレクトインプットの初期化関数を呼ぶ
 	if (FAILED(InitDinput(hWnd)))
 	{
@@ -238,6 +243,7 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 		return E_FAIL;
 	}
 	else InitDinput(hWnd);
+
 	//Display Mode の設定
 	g_pDirect3D->GetAdapterDisplayMode(
 		D3DADAPTER_DEFAULT,
@@ -254,13 +260,13 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 	g_D3dPresentParameters.BackBufferHeight = ResolutionHeight;
 	g_D3dPresentParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
 	g_D3dPresentParameters.BackBufferCount = 1;
-	g_D3dPresentParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
-	g_D3dPresentParameters.MultiSampleQuality = 0;
+	//g_D3dPresentParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
+	//g_D3dPresentParameters.MultiSampleQuality = 0;
 	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	g_D3dPresentParameters.hDeviceWindow = hWnd;
 	g_D3dPresentParameters.Windowed = FALSE;
-	g_D3dPresentParameters.EnableAutoDepthStencil = FALSE;
-	g_D3dPresentParameters.AutoDepthStencilFormat = D3DFMT_A1R5G5B5;
+	//g_D3dPresentParameters.EnableAutoDepthStencil = FALSE;
+	//g_D3dPresentParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
 	g_D3dPresentParameters.Flags = 0;
 	g_D3dPresentParameters.FullScreen_RefreshRateInHz = 0;
 	g_D3dPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
@@ -383,7 +389,7 @@ int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hI
 		return 0;
 	}
 }
-int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, int ResolutionWidth, int ResolutionHeight, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile) {
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile) {
 
 	WNDCLASS Wndclass;
 
@@ -405,7 +411,7 @@ int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, in
 	*hWnd = CreateWindow(
 		WndName,						//ウィンドウのクラス名
 		WndName,  				//ウィンドウのタイトル
-		WS_OVERLAPPEDWINDOW | WS_VISIBLE,	//ウィンドウスタイル
+		WS_POPUP | WS_VISIBLE,	//ウィンドウスタイル
 		CW_USEDEFAULT,						// ウィンドウの横方向の位置x
 		CW_USEDEFAULT,						// ウィンドウの縦方向の位置y
 		WIDTH,							// Width（幅）
@@ -420,7 +426,7 @@ int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, in
 		return 0;
 	}
 
-	if (FAILED(InitDirectXFullscreen(*hWnd, pSrcFile,ResolutionWidth,ResolutionHeight)))
+	if (FAILED(InitDirectXFullscreen(*hWnd, pSrcFile, WIDTH,HEIGHT)))
 	{
 		return 0;
 	}
