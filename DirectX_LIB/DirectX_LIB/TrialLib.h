@@ -95,7 +95,7 @@ extern BYTE KeyOldState[256];
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 HRESULT InitD3d(HWND hWnd, LPCSTR pSrcFile);
-HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile);
+HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight);
 HRESULT InitDinput(HWND hWnd);
 HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile);
 HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight);

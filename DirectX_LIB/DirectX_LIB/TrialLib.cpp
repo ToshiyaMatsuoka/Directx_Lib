@@ -93,7 +93,7 @@ HRESULT InitD3d(HWND hWnd, LPCSTR pSrcFile)
 	}
 	return S_OK;
 }
-HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile)
+HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight)
 {
 	// 「Direct3D」オブジェクトの作成
 	if (!(g_pDirect3D = Direct3DCreate9(D3D_SDK_VERSION)))
@@ -105,7 +105,8 @@ HRESULT InitD3dFullscreen(HWND hWnd, LPCSTR pSrcFile)
 	// 「DIRECT3Dデバイス」オブジェクトの作成
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
-
+	d3dpp.BackBufferWidth = ResolutionWidth;
+	d3dpp.BackBufferHeight = ResolutionHeight;
 	d3dpp.BackBufferFormat = D3DFMT_UNKNOWN;
 	d3dpp.BackBufferCount = 1;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
@@ -229,12 +230,12 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 }
 HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int ResolutionHeight) {
 	//ダイレクト３Dの初期化関数を呼ぶ
-	if (FALSE(InitD3dFullscreen(hWnd, pSrcFile)))
+	if (FALSE(InitD3dFullscreen(hWnd, pSrcFile, ResolutionWidth, ResolutionHeight)))
 	{
 		MessageBox(0, "DirectXの初期化に失敗しました", "", MB_OK);
 		return 0;
 	}
-	else InitD3dFullscreen(hWnd, pSrcFile);
+	else InitD3dFullscreen(hWnd, pSrcFile, ResolutionWidth, ResolutionHeight);
 
 	//ダイレクトインプットの初期化関数を呼ぶ
 	if (FAILED(InitDinput(hWnd)))
@@ -260,8 +261,8 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 	g_D3dPresentParameters.BackBufferHeight = ResolutionHeight;
 	g_D3dPresentParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
 	g_D3dPresentParameters.BackBufferCount = 1;
-	//g_D3dPresentParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
-	//g_D3dPresentParameters.MultiSampleQuality = 0;
+	g_D3dPresentParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
+	g_D3dPresentParameters.MultiSampleQuality = 0;
 	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	g_D3dPresentParameters.hDeviceWindow = hWnd;
 	g_D3dPresentParameters.Windowed = FALSE;
