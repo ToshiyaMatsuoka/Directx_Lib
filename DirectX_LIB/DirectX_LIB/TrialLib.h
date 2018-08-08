@@ -18,7 +18,7 @@
 #include <stdio.h>
 #include<Xinput.h>
 
-#include "TrialEnums.h"//自分のslnフォルダに入れておくこと
+#include "TrialEnums.h"
 
 #pragma comment(lib, "winmm.lib")
 #pragma comment(lib, "d3d9.lib")
@@ -27,29 +27,49 @@
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "Xinput.lib")
 
-
+/**
+* @enum PADSTATE
+* ボタンの押下状態
+*/
 enum PADSTATE
 {
+	//! 押されている
 	PadOn,
+	//! 押されていない
 	PadOff,
+	//! 押し続けている
 	PadPush,
+	//! 離された
 	PadRelease
 };
+/**
+* @enum KEYSTATE
+* キーの押下状態
+*/
 enum KEYSTATE
 {
+	//! 押されていない
 	KeyOff,
+	//! 押されている
 	KeyOn,
+	//! 押し続けている
 	KeyPush,
+	//! 離された
 	KeyRelease
 };
-
+/**
+* @enum ButtonIndex
+* パッドのボタンの列挙
+*/
 enum ButtonIndex
 {
 	ButtonA,
 	ButtonB,
 	ButtonX,
 	ButtonY,
+	//! R1ボタン
 	ButtonRB,
+	//! L1ボタン
 	ButtonLB,
 	ButtonStart,
 	ButtonBack,
@@ -57,9 +77,14 @@ enum ButtonIndex
 	ButtonDOWN,
 	ButtonLEFT,
 	ButtonRIGHT,
-	buttomindexMAX
+	ButtonLeftThumb,
+	ButtonRightThumb,
+	ButtomIndexMAX
 };
-
+/**
+* @enum Analog
+* アナログスティックの傾き方向
+*/
 enum Analog
 {
 	ANALOGUP,
@@ -95,8 +120,8 @@ extern D3DPRESENT_PARAMETERS g_D3dPresentParameters;
 extern LPDIRECTINPUT8 g_pDinput;
 extern LPDIRECTINPUTDEVICE8 g_pKeyDevice;
 extern LPD3DXFONT g_pFont[128];
-extern PADSTATE PadState[buttomindexMAX];
-extern PADSTATE PadOldState[buttomindexMAX];
+extern PADSTATE PadState[ButtomIndexMAX];
+extern PADSTATE PadOldState[ButtomIndexMAX];
 extern BYTE KeyState[256];
 extern BYTE KeyOldState[256];
 
@@ -331,7 +356,7 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 //DXフォント
 
 /**
-* @brief 文字設定
+* @brief DXフォント文字設定
 * @param WordHeight 文字の高さ
 * @param WordWidth 文字の幅
 * @param CharSet キャラセット（英字なら１，シフトJISなら128）
@@ -340,7 +365,7 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 */
 void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int FontNum);
 /**
-* @brief 描画設定
+* @brief DXフォント描画設定
 * @param Texts 表示内容
 * @param Vertex 表示範囲
 * @param TextFormat フォーマット
@@ -349,42 +374,202 @@ void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int 
 */
 void WriteWord(LPCSTR Texts, RECT Vertex, int TextFormat, int color, int FontNum);
 
-//回転、円運動関数
+
+/**
+* @brief 回転、円運動関数
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param motionRadius 円運動半径
+*/
 void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius);
-//回転、楕円運動関数
+/**
+* @brief 回転、楕円運動関数
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param motionRadiusX 円運動X半径
+* @param motionRadiusY 円運動Y半径
+*/
 void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY);
-//Z軸回転
+
+
+/**
+* @brief Z軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+*/
 void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central);
+/**
+* @brief 回転軸指定Z軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param RevolvingShaftX 回転軸のX座標
+* @param RevolvingShaftY 回転軸のY座標
+*/
 void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float 	RevolvingShaftX, float 	RevolvingShaftY);
-//Y軸回転
+/**
+* @brief Y軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+*/
 void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central);
+/**
+* @brief 回転軸指定Y軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param RevolvingShaftX 回転軸のX座標
+* @param RevolvingShaftZ 回転軸のZ座標
+*/
 void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftX, float RevolvingShaftZ);
-//X軸回転
+/**
+* @brief X軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+*/
 void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central);
+/**
+* @brief 回転軸指定X軸回転
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param RevolvingShaftY 回転軸のY座標
+* @param RevolvingShaftZ 回転軸のZ座標
+*/
 void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ);
+
 //円運動
+/**
+* @brief 円運動関数
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param motionRadius 円運動半径
+*/
 void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius);
-//楕円運動
+//
+/**
+* @brief 楕円運動
+* @param Vertex 動作後の頂点情報の格納先
+* @param Rad 回転角度（単位：Radian）
+* @param Central 動かす中心情報
+* @param motionRadiusX 円運動X半径
+* @param motionRadiusY 円運動Y半径
+*/
 void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY);
 
 //Dinputキーボード
+/**
+* @brief Dinputでキーボードの入力取得
+* @param KeyName 取得したいキーの配列番号
+* @return 入力されていればTrue、そうでなければFalse
+*/
 bool InputKEY(int KeyName);
+/**
+* @brief Dinputでキーボードの状態取得
+* @param KeyName 取得したいキーの配列番号
+* @sa enum KEYSTATE
+* @detail 使用時には　KeyState[KeyName]　の中身を確認すること
+*/
 void CheckKeyState(int KeyName);
 //XInput
+bool InputKEY(int KeyName);
+/**
+* @brief Xinputでゲームパッドデバイスの取得
+* @param GamePadNumber パッド番号（0ベース）
+*/
 void GetControl(int GamePadNumber);
+/**
+* @brief Xinputでゲームパッドの入力取得
+* @param index 取得したいボタンの配列番号
+* @return PADSTATE型の値
+*/
 PADSTATE GetButton(ButtonIndex index);
-bool GetAnalogL(Analog analogstate);
+/**
+* @brief Xinputでゲームパッドの左アナログスティック入力取得
+* @param Analogstate スティックの方向け先番号
+* @return 傾いていればTrue、そうでなければFalse
+* @sa enum Analog
+* @detail 以下のように使用可能
+* if(GetAnalogL(ANALOGRIGHT)){
+* for (int i = 0; i < 4; i++){
+* 処理　
+* }
+* }
+*/
+bool GetAnalogL(Analog Analogstate);
+/**
+* @brief  Xinputでゲームパッドの右アナログスティック入力取得
+* @param Analogstate スティックの方向け先番号
+* @return 傾いていればTrue、そうでなければFalse
+* @sa enum Analog
+* @detail 以下のように使用可能
+* if(GetAnalogL(ANALOGRIGHT)){
+* for (int i = 0; i < 4; i++){
+* 処理　
+* }
+* }
+*/
 bool GetAnalogR(Analog AnalogState);
-void CheckButtonState(WORD, int);
+/**
+* @brief Dinputでキーボードの状態取得
+* @param ButtomID 取得したいXInputボタン番号
+* @param ButtomIndex 取得したいボタンの配列番号
+* @sa enum ButtonIndex
+* @detail 使用時には　PadState[KeyName]　の中身を確認すること
+*/
+void CheckButtonState(WORD ButtomID, int ButtomIndex);
+/**
+* @brief CheckButtonStateを纏めて行う
+* @sa CheckButtonState(WORD ButtomID, int ButtomIndex)
+*/
 void BottonCheck();
 //当たり判定
-////円と円の当たり判定
+
+
+/**
+* @brief 円と円の当たり判定
+* @param PosX1 1つ目の円のX座標
+* @param PosY1 1つ目の円のY座標
+* @param Radius1 1つ目の円の半径
+* @param PosX2 2つ目の円のX座標
+* @param PosY2 2つ目の円のY座標
+* @param Radius2 2つ目の円の半径
+* @return 当たっていればTrue
+*/
 bool CtoCContact(float PosX1, float PosY1, float Radius1, float PosX2, float PosY2, float Radius2);
-bool CtoCContact(CIRCLE_STATE* a, CIRCLE_STATE* b);
-////矩形と矩形の当たり判定
+/**
+* @brief CIRCLE_STATEを使用して円と円の当たり判定
+* @param CircleA 1つ目の円
+* @param CircleB 2つ目の円
+* @return 当たっていればTrue
+*/
+bool CtoCContact(CIRCLE_STATE* CircleA, CIRCLE_STATE* CircleB);
+
+
+/**
+* @brief 矩形と矩形の当たり判定
+* @param central1 1つ目の矩形
+* @param central2 2つ目の矩形
+* @return 当たっていればTrue
+*/
 bool BtoBContact(CENTRAL_STATE* central1, CENTRAL_STATE* central2);
-//行動エリア制限
-////矩形が指定範囲外に出ないようにする
+
+
+/**
+* @brief 矩形が指定範囲外に出ないようにする
+* @param central 使用する中心情報
+* @param Left 指定範囲の左端
+* @param Top 指定範囲の上端
+* @param Right 指定範囲の右端
+* @param Bottom 指定範囲の下端
+* @return 当たっていればTrue
+*/
 void MoveInToErea(CENTRAL_STATE* central, float Left, float Top, float Right, float Bottom);
 
 #endif TRIALLIB_H

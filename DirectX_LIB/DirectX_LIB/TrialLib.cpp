@@ -17,8 +17,8 @@ LPDIRECTINPUTDEVICE8 g_pKeyDevice = NULL;
 LPD3DXFONT g_pFont[128];
 
 XINPUT_STATE g_Xinput;
-PADSTATE PadState[buttomindexMAX];
-PADSTATE PadOldState[buttomindexMAX] = { PadOff };
+PADSTATE PadState[ButtomIndexMAX];
+PADSTATE PadOldState[ButtomIndexMAX] = { PadOff };
 BYTE KeyState[256];
 BYTE KeyOldState[256] = { PadOff };
 
@@ -1124,8 +1124,8 @@ void BottonCheck() {
 	CheckButtonState(XINPUT_GAMEPAD_DPAD_RIGHT, ButtonRIGHT);
 	CheckButtonState(XINPUT_GAMEPAD_START, ButtonStart);
 	CheckButtonState(XINPUT_GAMEPAD_BACK, ButtonBack);
-	CheckButtonState(XINPUT_GAMEPAD_LEFT_SHOULDER, ButtonLB);
-	CheckButtonState(XINPUT_GAMEPAD_RIGHT_SHOULDER, ButtonRB);
+	CheckButtonState(XINPUT_GAMEPAD_LEFT_THUMB, ButtonLeftThumb);
+	CheckButtonState(XINPUT_GAMEPAD_RIGHT_THUMB, ButtonRightThumb);
 
 }
 //“–‚½‚è”»’è
@@ -1137,8 +1137,8 @@ bool CtoCContact(float PosX1,float PosY1,float Radius1, float PosX2, float PosY2
 	}
 	else return false;
 }
-bool CtoCContact(CIRCLE_STATE* a, CIRCLE_STATE* b) {
-	if ((pow(a->x - b->x, 2) + pow(a->y - b->y, 2) <= pow(a->r + b->r, 2)) || (pow(b->x - a->x, 2) + pow(b->y - a->y, 2) <= pow(a->r + b->r, 2))) {
+bool CtoCContact(CIRCLE_STATE* CircleA, CIRCLE_STATE* CircleB) {
+	if ((pow(CircleA->x - CircleB->x, 2) + pow(CircleA->y - CircleB->y, 2) <= pow(CircleA->r + CircleB->r, 2)) || (pow(CircleB->x - CircleA->x, 2) + pow(CircleB->y - CircleA->y, 2) <= pow(CircleA->r + CircleB->r, 2))) {
 		return true;
 	}
 	else return false;
