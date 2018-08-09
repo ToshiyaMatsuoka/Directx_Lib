@@ -16,7 +16,7 @@ enum TEXTURE
 * フォント配列の配列番号
 */
 enum FONT {
-	FONT,
+	BOO_FONT,
 	FONTMAX
 };
 
