@@ -239,7 +239,7 @@ void EndSetTexture();
 * @param pTextureName 読み込む画像ファイル名
 * @param TexNum 画像の格納先配列番号
 */
-void ReadInTexture(LPCSTR pTextureName, int TexNum);
+void ReadInTexture(LPCSTR pTextureName, TEXTURE TexNum);
 
 
 /**
@@ -248,7 +248,7 @@ void ReadInTexture(LPCSTR pTextureName, int TexNum);
 * @param TexNum 画像の格納配列番号
 * @detail CUSTOMVERTEX変数は自分で用意すること
 */
-void SetUpTexture(CUSTOMVERTEX* Vertex, int TexNum);
+void SetUpTexture(CUSTOMVERTEX* Vertex, TEXTURE TexNum);
 
 //2頂点設定描画
 
@@ -260,7 +260,7 @@ void SetUpTexture(CUSTOMVERTEX* Vertex, int TexNum);
 * @param Bottom 下端
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateSquareVertex(float Left, float Top, float Right, float Bottom, int TexNum);
+void EasyCreateSquareVertex(float Left, float Top, float Right, float Bottom, TEXTURE TexNum);
 /**
 * @brief 2頂点を指定し画像を描画する
 * @param Left 左端
@@ -270,7 +270,7 @@ void EasyCreateSquareVertex(float Left, float Top, float Right, float Bottom, in
 * @param color 色
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateSquareVertexColor(float Left, float Top, float Right, float Bottom, DWORD color, int TexNum);
+void EasyCreateSquareVertexColor(float Left, float Top, float Right, float Bottom, DWORD color, TEXTURE TexNum);
 
 /**
 * @brief 2頂点を指定し画像を描画する
@@ -285,7 +285,7 @@ void EasyCreateSquareVertexColor(float Left, float Top, float Right, float Botto
 * @param scaleTv 画像の切り取り高さ
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom, DWORD  color, float tu, float tv, float scaleTu, float scaleTv, int TexNum);
+void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom, DWORD  color, float tu, float tv, float scaleTu, float scaleTv, TEXTURE TexNum);
 
 //RECT引数2頂点設定描画
 
@@ -294,14 +294,14 @@ void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom,
 * @param Vertex RECT構造体で頂点を指定する
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateRECTVertex(RECT Vertex, int TexNum);
+void EasyCreateRECTVertex(RECT Vertex, TEXTURE TexNum);
 /**
 * @brief 2頂点を指定し画像を描画する
 * @param Vertex RECT構造体で頂点を指定する
 * @param color 色
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, int TexNum);
+void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, TEXTURE TexNum);
 /**
 * @brief 2頂点を指定し画像を描画する
 * @param Vertex RECT構造体で頂点を指定する
@@ -312,7 +312,7 @@ void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, int TexNum);
 * @param scaleTv 画像の切り取り高さ
 * @param TexNum 画像の格納配列番号
 */
-void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float scaleTu, float scaleTv, int TexNum);
+void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float scaleTu, float scaleTv, TEXTURE TexNum);
 
 //4頂点設定
 
@@ -363,7 +363,7 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 * @param FontName 使用するフォント名
 * @param FontNum 表示文字設定の格納先配列番号
 */
-void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int FontNum);
+void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, FONT FontNum);
 /**
 * @brief DXフォント描画設定
 * @param Texts 表示内容
@@ -372,7 +372,7 @@ void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int 
 * @param color 色
 * @param FontNum 表示文字設定の格納配列番号
 */
-void WriteWord(LPCSTR Texts, RECT Vertex, int TextFormat, int color, int FontNum);
+void WriteWord(LPCSTR Texts, RECT Vertex, int TextFormat, int color, FONT FontNum);
 
 
 /**
@@ -523,7 +523,7 @@ bool GetAnalogR(Analog AnalogState);
 * @sa enum ButtonIndex
 * @detail 使用時には　PadState[KeyName]　の中身を確認すること
 */
-void CheckButtonState(WORD ButtomID, int ButtomIndex);
+void CheckButtonState(WORD ButtomID, ButtonIndex ButtomIndex);
 /**
 * @brief CheckButtonStateを纏めて行う
 * @sa CheckButtonState(WORD ButtomID, int ButtomIndex)
