@@ -485,21 +485,21 @@ void EndSetTexture() {
 }
 
 //画像読み込み
-void ReadInTexture(LPCSTR pTextureName, TEXTURE TexNum) {
+void ReadInTexture(LPCSTR pTextureName, int TexNum) {
 	D3DXCreateTextureFromFile(
 		g_pD3Device,
 		pTextureName,
 		&g_pTexture[TexNum]);
 }
 //画像表示
-void SetUpTexture(CUSTOMVERTEX* Vertex, TEXTURE TexNum) {
+void SetUpTexture(CUSTOMVERTEX* Vertex, int TexNum) {
 	g_pD3Device->SetTexture(0, g_pTexture[TexNum]);
 	g_pD3Device->DrawPrimitiveUP(D3DPT_TRIANGLEFAN, 2, Vertex, sizeof(CUSTOMVERTEX));
 }
 
 //DXフォント
 //文字設定
-void SetUpFont(int WordHeight,int WordWidth,int CharSet,LPCSTR FontName, FONT FontNum) {
+void SetUpFont(int WordHeight,int WordWidth,int CharSet,LPCSTR FontName, int FontNum) {
 	D3DXCreateFont(
 		g_pD3Device,
 		WordHeight,
@@ -515,7 +515,7 @@ void SetUpFont(int WordHeight,int WordWidth,int CharSet,LPCSTR FontName, FONT Fo
 		&g_pFont[FontNum]);
 }
 //描画設定
-void WriteWord(LPCSTR Texts,RECT Vertex,int TextFormat,int color, FONT FontNum) {
+void WriteWord(LPCSTR Texts,RECT Vertex,int TextFormat,int color, int FontNum) {
 	g_pFont[FontNum]->DrawText(
 		NULL,							
 		Texts,					// 描画テキスト
@@ -528,13 +528,13 @@ void WriteWord(LPCSTR Texts,RECT Vertex,int TextFormat,int color, FONT FontNum) 
 
 
 //2点設定描画
-void EasyCreateSquareVertex( float Left, float Top, float Right, float Bottom, TEXTURE TexNum) {
+void EasyCreateSquareVertex( float Left, float Top, float Right, float Bottom, int TexNum) {
 	
 
 	EasyCreateSquareVertexEx( Left, Top, Right, Bottom, 0xffffffff, NULL, NULL, 1, 1, TexNum);
 
 }
-void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bottom, DWORD color, TEXTURE TexNum) {
+void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bottom, DWORD color, int TexNum) {
 	CUSTOMVERTEX Vertex[4];
 
 	Vertex[0] = { Left,  Top,    1.f, 1.f, color, 0, 0 };
@@ -545,7 +545,7 @@ void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bott
 	SetUpTexture(Vertex, TexNum);
 
 }
-void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom, DWORD color, float tu, float tv, float scaleTu, float scaleTv, TEXTURE TexNum) {
+void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom, DWORD color, float tu, float tv, float scaleTu, float scaleTv, int TexNum) {
 	CUSTOMVERTEX Vertex[4];
 
 
@@ -558,13 +558,13 @@ void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom,
 }
 
 //RECT引数2頂点設定描画
-void EasyCreateRECTVertex(RECT Vertex, TEXTURE TexNum) {
+void EasyCreateRECTVertex(RECT Vertex, int TexNum) {
 
 
 	EasyCreateSquareVertexEx(Vertex.left, Vertex.top, Vertex.right, Vertex.bottom, 0xffffffff, NULL, NULL, 1, 1, TexNum);
 
 }
-void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, TEXTURE TexNum) {
+void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, int TexNum) {
 	CUSTOMVERTEX Vertex4[4];
 
 	Vertex4[0] = { (float)Vertex.left, (float)Vertex.top,    1.f, 1.f, color, 0, 0 };
@@ -575,7 +575,7 @@ void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, TEXTURE TexNum) {
 	SetUpTexture(Vertex4, TexNum);
 
 }
-void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float scaleTu, float scaleTv, TEXTURE TexNum) {
+void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float scaleTu, float scaleTv, int TexNum) {
 	CUSTOMVERTEX Vertex4[4];
 	
 
