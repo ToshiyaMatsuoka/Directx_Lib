@@ -29,11 +29,11 @@ void FreeDx()
 	SAFE_RELEASE(g_pDirect3D);
 	SAFE_RELEASE(g_pDinput);
 
-	for (int i = 0; i <= TEXMAX; i++)
+	for (int i = 0; i < 128; i++)
 	{
 		SAFE_RELEASE(g_pTexture[i]);
 	}
-	for (int i = 0; i < FONTMAX; i++)
+	for (int i = 0; i < 128; i++)
 	{
 		SAFE_RELEASE(g_pFont[i]);
 	}
