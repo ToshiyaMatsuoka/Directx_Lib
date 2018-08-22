@@ -1012,6 +1012,19 @@ PADSTATE GetButton(ButtonIndex Index)
 	return PadState[Index];
 }
 
+
+int GetAnalogTrigger(int Trigger)
+{
+	switch (Trigger)
+	{
+	case LEFTTRIGGER:
+		return g_Xinput.Gamepad.bLeftTrigger;
+	case RIGHTTRIGGER:
+		return g_Xinput.Gamepad.bRightTrigger;
+
+	}
+}
+
 bool GetAnalogL(Analog AnalogState)
 {
 	switch (AnalogState)

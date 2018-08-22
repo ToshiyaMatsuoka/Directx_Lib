@@ -93,7 +93,11 @@ enum Analog
 	ANALOGRIGHT,
 	ANALOGMAX
 };
-
+enum AnalogTrigger
+{
+	LEFTTRIGGER,
+	RIGHTTRIGGER
+};
 
 
 typedef struct CUSTOMVERTEX
@@ -124,7 +128,6 @@ extern PADSTATE PadState[ButtomIndexMAX];
 extern PADSTATE PadOldState[ButtomIndexMAX];
 extern BYTE KeyState[256];
 extern BYTE KeyOldState[256];
-
 
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
@@ -491,6 +494,13 @@ void GetControl(int GamePadNumber);
 * @return PADSTATE型の値
 */
 PADSTATE GetButton(ButtonIndex index);
+/**
+* @brief Xinputでゲームパッドの左アナログスティック入力取得
+* @param トリガーの左右認識番号　0or1
+* @return 0～255の値、押してなければ0
+* @sa enum AnalogTrigger
+*/
+int GetAnalogTrigger(int Trigger);
 /**
 * @brief Xinputでゲームパッドの左アナログスティック入力取得
 * @param Analogstate スティックの方向け先番号
