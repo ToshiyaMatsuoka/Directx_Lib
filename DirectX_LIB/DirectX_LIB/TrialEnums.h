@@ -4,19 +4,20 @@
 /**
 * @enum TEXTURE
 * テクスチャ配列の配列番号
+* texture.txtに"〇〇,"の形式で追加していくこと
 */
 enum TEXTURE
 {
-	HOGE_TEX,
-	BOO_TEX,
+#include "texture.txt"
 	TEXMAX
 };
 /**
 * @enum FONT
 * フォント配列の配列番号
+* font.txtに"〇〇,"の形式で追加していくこと
 */
 enum FONT {
-	BOO_FONT,
+#include "font.txt"
 	FONTMAX
 };
 

@@ -8,13 +8,13 @@
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
 LPDIRECT3D9 g_pDirect3D;		//	Direct3Dのインターフェイス
-LPDIRECT3DTEXTURE9	  g_pTexture[128];	//	画像の情報を入れておく為のポインタ配列
+LPDIRECT3DTEXTURE9	  g_pTexture[TEXMAX];	//	画像の情報を入れておく為のポインタ配列
 IDirect3DDevice9*	  g_pD3Device = NULL;		//	Direct3Dのデバイス
 D3DDISPLAYMODE		  g_D3DdisplayMode;
 D3DPRESENT_PARAMETERS g_D3dPresentParameters;
 LPDIRECTINPUT8 g_pDinput = NULL;
 LPDIRECTINPUTDEVICE8 g_pKeyDevice = NULL;
-LPD3DXFONT g_pFont[128];
+LPD3DXFONT g_pFont[FONTMAX];
 
 XINPUT_STATE g_Xinput;
 PADSTATE PadState[ButtomIndexMAX];
@@ -29,11 +29,11 @@ void FreeDx()
 	SAFE_RELEASE(g_pDirect3D);
 	SAFE_RELEASE(g_pDinput);
 
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < TEXMAX; i++)
 	{
 		SAFE_RELEASE(g_pTexture[i]);
 	}
-	for (int i = 0; i < 128; i++)
+	for (int i = 0; i < FONTMAX; i++)
 	{
 		SAFE_RELEASE(g_pFont[i]);
 	}
@@ -590,7 +590,7 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 
 
 //回転、円運動関数
-void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius) {
+void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius, float tu, float tv, float scaleTu, float scaleTv) {
 	float CharVertexX[4];
 	float CharVertexY[4];
 
@@ -623,13 +623,13 @@ void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Cen
 		CharVertexY[i] += sin(Rad) * motionRadius;
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 }
 //回転、楕円運動関数
-void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY) {
+void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY, float tu, float tv, float scaleTu, float scaleTv) {
 	float CharVertexX[4];
 	float CharVertexY[4];
 
@@ -662,10 +662,10 @@ void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE
 		CharVertexY[i] += sin(Rad) * motionRadiusY;
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 }
 
 //Z軸回転
@@ -902,7 +902,7 @@ void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float
 
 }
 //楕円運動
-void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY) {
+void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY, float tu, float tv, float scaleTu, float scaleTv) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -923,10 +923,10 @@ void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, 
 		CharVertexY[i] += sin(Rad) * motionRadiusY;
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 

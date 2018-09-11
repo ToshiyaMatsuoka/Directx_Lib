@@ -119,13 +119,13 @@ struct CIRCLE_STATE{
 };
 
 extern LPDIRECT3D9 g_pDirect3D;		//	Direct3Dのインターフェイス
-extern LPDIRECT3DTEXTURE9	  g_pTexture[128];	//	画像の情報を入れておく為のポインタ配列
+extern LPDIRECT3DTEXTURE9	  g_pTexture[TEXMAX];	//	画像の情報を入れておく為のポインタ配列
 extern IDirect3DDevice9*	  g_pD3Device;		//	Direct3Dのデバイス
 extern D3DDISPLAYMODE		  g_D3DdisplayMode;
 extern D3DPRESENT_PARAMETERS g_D3dPresentParameters;
 extern LPDIRECTINPUT8 g_pDinput;
 extern LPDIRECTINPUTDEVICE8 g_pKeyDevice;
-extern LPD3DXFONT g_pFont[128];
+extern LPD3DXFONT g_pFont[FONTMAX];
 extern PADSTATE PadState[ButtomIndexMAX];
 extern PADSTATE PadOldState[ButtomIndexMAX];
 extern BYTE KeyState[256];
@@ -355,8 +355,12 @@ void WriteWord(LPCSTR Texts, RECT Vertex, int TextFormat, int color, int FontNum
 * @param Rad 回転角度（単位：Radian）
 * @param Central 動かす中心情報
 * @param motionRadius 円運動半径
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
-void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius);
+void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 /**
 * @brief 回転、楕円運動関数
 * @param Vertex 動作後の頂点情報の格納先
@@ -364,8 +368,12 @@ void RevolveAndCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Cen
 * @param Central 動かす中心情報
 * @param motionRadiusX 円運動X半径
 * @param motionRadiusY 円運動Y半径
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
-void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY);
+void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 
 
 /**
@@ -373,6 +381,10 @@ void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE
 * @param Vertex 動作後の頂点情報の格納先
 * @param Rad 回転角度（単位：Radian）
 * @param Central 動かす中心情報
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
 void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 /**
@@ -389,6 +401,10 @@ void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float 	R
 * @param Vertex 動作後の頂点情報の格納先
 * @param Rad 回転角度（単位：Radian）
 * @param Central 動かす中心情報
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
 void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 /**
@@ -405,6 +421,10 @@ void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 * @param Vertex 動作後の頂点情報の格納先
 * @param Rad 回転角度（単位：Radian）
 * @param Central 動かす中心情報
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
 void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 /**
@@ -414,6 +434,10 @@ void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu =
 * @param Central 動かす中心情報
 * @param RevolvingShaftY 回転軸のY座標
 * @param RevolvingShaftZ 回転軸のZ座標
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
 void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 
@@ -424,6 +448,10 @@ void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 * @param Rad 回転角度（単位：Radian）
 * @param Central 動かす中心情報
 * @param motionRadius 円運動半径
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
 void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadius, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 //
@@ -434,8 +462,12 @@ void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, floa
 * @param Central 動かす中心情報
 * @param motionRadiusX 円運動X半径
 * @param motionRadiusY 円運動Y半径
+* @param tu 画像切り取り左端
+* @param tv 画像切り取り上端
+* @param scaleTu 画像の切り取り幅
+* @param scaleTv 画像の切り取り高さ
 */
-void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY);
+void OvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float motionRadiusX, float motionRadiusY, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1);
 
 //Dinputキーボード
 /**
