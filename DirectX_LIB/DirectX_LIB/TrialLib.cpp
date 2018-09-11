@@ -304,7 +304,7 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 }
 
 //WINAPIÇÃãÛÉEÉBÉìÉhÉEê∂ê¨
-int InitWindow(LPCSTR WndName,int WIDTH,int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance,int IconIDI, LPCSTR pSrcFile) {
+int InitWindow(LPCSTR WndName,int WIDTH,int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile,int IconIDI) {
 	
 	HWND hWnd = NULL;
 	
@@ -348,7 +348,7 @@ int InitWindow(LPCSTR WndName,int WIDTH,int HEIGHT, HINSTANCE hInst, HINSTANCE h
 		return 0;
 	}
 }
-int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile) {
+int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile ,int IconIDI) {
 
 	WNDCLASS Wndclass;
 
@@ -390,7 +390,7 @@ int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hI
 		return 0;
 	}
 }
-int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, int IconIDI, LPCSTR pSrcFile) {
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int IconIDI) {
 
 	WNDCLASS Wndclass;
 
@@ -528,13 +528,7 @@ void WriteWord(LPCSTR Texts,RECT Vertex,int TextFormat,int color, int FontNum) {
 
 
 //2ì_ê›íËï`âÊ
-void EasyCreateSquareVertex( float Left, float Top, float Right, float Bottom, int TexNum) {
-	
-
-	EasyCreateSquareVertexEx( Left, Top, Right, Bottom, 0xffffffff, NULL, NULL, 1, 1, TexNum);
-
-}
-void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bottom, DWORD color, int TexNum) {
+void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bottom, int TexNum, DWORD color) {
 	CUSTOMVERTEX Vertex[4];
 
 	Vertex[0] = { Left,  Top,    1.f, 1.f, color, 0, 0 };
@@ -545,7 +539,7 @@ void EasyCreateSquareVertexColor( float Left, float Top, float Right, float Bott
 	SetUpTexture(Vertex, TexNum);
 
 }
-void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom, DWORD color, float tu, float tv, float scaleTu, float scaleTv, int TexNum) {
+void EasyCreateSquareVertex( float Left, float Top, float Right, float Bottom, int TexNum, DWORD color, float tu, float tv, float scaleTu, float scaleTv) {
 	CUSTOMVERTEX Vertex[4];
 
 
@@ -558,13 +552,7 @@ void EasyCreateSquareVertexEx( float Left, float Top, float Right, float Bottom,
 }
 
 //RECTà¯êî2í∏ì_ê›íËï`âÊ
-void EasyCreateRECTVertex(RECT Vertex, int TexNum) {
-
-
-	EasyCreateSquareVertexEx(Vertex.left, Vertex.top, Vertex.right, Vertex.bottom, 0xffffffff, NULL, NULL, 1, 1, TexNum);
-
-}
-void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, int TexNum) {
+void EasyCreateRECTVertexColor(RECT Vertex, int TexNum, DWORD color) {
 	CUSTOMVERTEX Vertex4[4];
 
 	Vertex4[0] = { (float)Vertex.left, (float)Vertex.top,    1.f, 1.f, color, 0, 0 };
@@ -575,7 +563,7 @@ void EasyCreateRECTVertexColor(RECT Vertex, DWORD color, int TexNum) {
 	SetUpTexture(Vertex4, TexNum);
 
 }
-void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float scaleTu, float scaleTv, int TexNum) {
+void EasyCreateRECTVertex(RECT Vertex, int TexNum, DWORD color, float tu, float tv, float scaleTu, float scaleTv) {
 	CUSTOMVERTEX Vertex4[4];
 	
 
@@ -588,24 +576,14 @@ void EasyCreateRECTVertexEx(RECT Vertex, DWORD color, float tu, float tv, float 
 }
 
 //4í∏ì_ê›íË
-void CreateSquareVertex(CUSTOMVERTEX* Vertex,CENTRAL_STATE Central) {
-	
-	
-	CreateSquareVertexEx(Vertex,Central,NULL,NULL,1,1);
-	
-	
-}
-void CreateSquareVertexEx(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central,float tu,float tv,float scaleTu,float scaleTv) {
-	CreateSquareVertexColorEx(Vertex, Central, 0xffffffff,tu, tv, scaleTu, scaleTv);
-}
-void CreateSquareVertexColorEx(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central,DWORD color ,float tu, float tv, float scaleTu, float scaleTv) {
+void CreateSquareVertex(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central,DWORD color ,float tu, float tv, float scaleTu, float scaleTv) {
 	Vertex[0] = { Central.x - Central.scaleX, Central.y - Central.scaleY, 1.f, 1.f, color, tu, tv };
 	Vertex[1] = { Central.x + Central.scaleX, Central.y - Central.scaleY, 1.f, 1.f, color, tu + scaleTu, tv };
 	Vertex[2] = { Central.x + Central.scaleX, Central.y + Central.scaleY, 1.f, 1.f, color, tu + scaleTu, tv + scaleTv };
 	Vertex[3] = { Central.x - Central.scaleX, Central.y + Central.scaleY, 1.f, 1.f, color, tu, tv + scaleTv };
 }
 void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD color){
-	CreateSquareVertexColorEx(Vertex, Central, color, NULL, NULL, 1, 1);
+	CreateSquareVertex(Vertex, Central, color);
 }
 
 
@@ -691,7 +669,7 @@ void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE
 }
 
 //Zé≤âÒì]
-void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
+void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -721,14 +699,14 @@ void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
 
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 //Zé≤Å@âÒì]é≤éwíË
-void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float RevolvingShaftX,float RevolvingShaftY) {
+void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float RevolvingShaftX,float RevolvingShaftY, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -758,15 +736,15 @@ void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float Rev
 
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 
 //Yé≤âÒì]
-void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
+void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexX[4];
 
@@ -791,14 +769,14 @@ void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
 
 	}
 
-	Vertex[0] = { CharVertexX[0], Central.y - Central.scaleY, Vertex[0].z, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], Central.y - Central.scaleY, Vertex[1].z, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], Central.y + Central.scaleY, Vertex[2].z, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], Central.y + Central.scaleY, Vertex[3].z, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], Central.y - Central.scaleY, Vertex[0].z, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], Central.y - Central.scaleY, Vertex[1].z, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], Central.y + Central.scaleY, Vertex[2].z, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], Central.y + Central.scaleY, Vertex[3].z, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 //Yé≤Å@âÒì]é≤éwíË
-void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftX, float RevolvingShaftZ) {
+void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftX, float RevolvingShaftZ, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexX[4];
 
@@ -823,15 +801,15 @@ void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 
 	}
 
-	Vertex[0] = { CharVertexX[0], Central.y - Central.scaleY, Vertex[0].z, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], Central.y - Central.scaleY, Vertex[1].z, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], Central.y + Central.scaleY, Vertex[2].z, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], Central.y + Central.scaleY, Vertex[3].z, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], Central.y - Central.scaleY, Vertex[0].z, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], Central.y - Central.scaleY, Vertex[1].z, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], Central.y + Central.scaleY, Vertex[2].z, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], Central.y + Central.scaleY, Vertex[3].z, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 
 //Xé≤âÒì]
-void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
+void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 	
 	float CharVertexY[4];
 
@@ -856,14 +834,14 @@ void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central) {
 
 	}
 
-	Vertex[0] = { Central.x - Central.scaleX,CharVertexY[0],Vertex[0].z, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { Central.x + Central.scaleX,CharVertexY[1],Vertex[1].z, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { Central.x + Central.scaleX,CharVertexY[2],Vertex[2].z, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { Central.x - Central.scaleX,CharVertexY[3],Vertex[3].z, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { Central.x - Central.scaleX,CharVertexY[0],Vertex[0].z, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { Central.x + Central.scaleX,CharVertexY[1],Vertex[1].z, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { Central.x + Central.scaleX,CharVertexY[2],Vertex[2].z, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { Central.x - Central.scaleX,CharVertexY[3],Vertex[3].z, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 //Xé≤Å@âÒì]é≤éwíË
-void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ) {
+void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexY[4];
 
@@ -888,15 +866,15 @@ void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 
 	}
 
-	Vertex[0] = { Central.x - Central.scaleX,CharVertexY[0],Vertex[0].z, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { Central.x + Central.scaleX,CharVertexY[1],Vertex[1].z, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { Central.x + Central.scaleX,CharVertexY[2],Vertex[2].z, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { Central.x - Central.scaleX,CharVertexY[3],Vertex[3].z, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { Central.x - Central.scaleX,CharVertexY[0],Vertex[0].z, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { Central.x + Central.scaleX,CharVertexY[1],Vertex[1].z, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { Central.x + Central.scaleX,CharVertexY[2],Vertex[2].z, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { Central.x - Central.scaleX,CharVertexY[3],Vertex[3].z, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 
 //â~â^ìÆ
-void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float motionRadius) {
+void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float motionRadius, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -917,10 +895,10 @@ void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float
 		CharVertexY[i] += sin(Rad) * motionRadius;
 	}
 
-	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, 0.f, 0.f };
-	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, 1.f, 0.f };
-	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, 1.f, 1.f };
-	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, 0.f, 1.f };
+	Vertex[0] = { CharVertexX[0], CharVertexY[0], 1.f, 1.f, 0xffffffff, tu, tv };
+	Vertex[1] = { CharVertexX[1], CharVertexY[1], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv };
+	Vertex[2] = { CharVertexX[2], CharVertexY[2], 1.f, 1.f, 0xffffffff, tu + scaleTu, tv + scaleTv };
+	Vertex[3] = { CharVertexX[3], CharVertexY[3], 1.f, 1.f, 0xffffffff, tu, tv + scaleTv };
 
 }
 //ë»â~â^ìÆ
