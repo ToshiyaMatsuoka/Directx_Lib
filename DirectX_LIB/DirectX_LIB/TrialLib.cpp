@@ -499,7 +499,7 @@ void SetUpTexture(CUSTOMVERTEX* Vertex, int TexNum) {
 
 //DXフォント
 //文字設定
-void SetUpFont(int WordHeight,int WordWidth,int CharSet,LPCSTR FontName, int FontNum) {
+void SetUpFont(int WordHeight,int WordWidth, int FontNum,LPCSTR FontName,int CharSet) {
 	D3DXCreateFont(
 		g_pD3Device,
 		WordHeight,
@@ -515,7 +515,7 @@ void SetUpFont(int WordHeight,int WordWidth,int CharSet,LPCSTR FontName, int Fon
 		&g_pFont[FontNum]);
 }
 //描画設定
-void WriteWord(LPCSTR Texts,RECT Vertex,int TextFormat,int color, int FontNum) {
+void WriteWord(LPCSTR Texts,RECT Vertex, int FontNum,int TextFormat,int color) {
 	g_pFont[FontNum]->DrawText(
 		NULL,							
 		Texts,					// 描画テキスト

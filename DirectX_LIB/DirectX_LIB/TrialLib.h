@@ -337,7 +337,7 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 * @param FontName 使用するフォント名
 * @param FontNum 表示文字設定の格納先配列番号
 */
-void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int FontNum);
+void SetUpFont(int WordHeight, int WordWidth, int FontNum, LPCSTR FontName, int CharSet=DEFAULT_CHARSET);
 /**
 * @brief DXフォント描画設定
 * @param Texts 表示内容
@@ -346,7 +346,7 @@ void SetUpFont(int WordHeight, int WordWidth, int CharSet, LPCSTR FontName, int 
 * @param color 色
 * @param FontNum 表示文字設定の格納配列番号
 */
-void WriteWord(LPCSTR Texts, RECT Vertex, int TextFormat, int color, int FontNum);
+void WriteWord(LPCSTR Texts, RECT Vertex, int FontNum, int TextFormat=DT_LEFT, int color=0xff000000);
 
 
 /**
@@ -489,7 +489,7 @@ bool InputKEY(int KeyName);
 * @brief Xinputでゲームパッドデバイスの取得
 * @param GamePadNumber パッド番号（0ベース）
 */
-void GetControl(int GamePadNumber);
+void GetControl(int GamePadNumber = 0);
 /**
 * @brief Xinputでゲームパッドの入力取得
 * @param index 取得したいボタンの配列番号
