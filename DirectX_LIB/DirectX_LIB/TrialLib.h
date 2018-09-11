@@ -169,7 +169,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile);
 * @param pSrcFile　画像ファイル名
 * @return 成功すればS_OK、失敗でE_FAIL
 */
-HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight);
+HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile, int ResolutionWidth, int ResolutionHeight, int PresentationInterval=D3DPRESENT_INTERVAL_IMMEDIATE);
 
 void FreeDx();
 
@@ -182,8 +182,8 @@ void FreeDx();
 * @param HEIGHT 画面高さ
 * @param hInst APIインスタンスのハンドル
 * @param hInstance APIインスタンスのハンドル
-* @param  IconIDI　IconのID　不要ならNULL
 * @param pSrcFile　画像ファイル名
+* @param  IconIDI　IconのID　不要ならNULL
 * @return NULL返すとウィンドウを閉じる
 */
 int InitWindow(LPCSTR WndName, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int IconIDI = NULL);
@@ -196,8 +196,8 @@ int InitWindow(LPCSTR WndName, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE
 * @param HEIGHT 画面高さ
 * @param hInst APIインスタンスのハンドル
 * @param hInstance APIインスタンスのハンドル
-* @param  IconIDI　IconのID　不要ならNULL
 * @param pSrcFile　画像ファイル名
+* @param  IconIDI　IconのID　不要ならNULL
 * @return NULL返すとウィンドウを閉じる
 */
 int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int IconIDI = NULL);
@@ -210,11 +210,12 @@ int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hI
 * @param HEIGHT 画面高さ
 * @param hInst APIインスタンスのハンドル
 * @param hInstance APIインスタンスのハンドル
-* @param  IconIDI　IconのID　不要ならNULL
 * @param pSrcFile　画像ファイル名
+* @param  int PresentationInterval 垂直同期の設定　Defaultでオン：D3DPRESENT_INTERVAL_IMMEDIATE　オフにするならD3DPRESENT_INTERVAL_DEFAULTなどを設定する
+* @param  IconIDI　IconのID　不要ならNULL
 * @return NULL返すとウィンドウを閉じる
 */
-int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int IconIDI = NULL);
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE, int IconIDI = NULL);
 
 /**
 * @brief 秒間60フレームループさせる
@@ -333,18 +334,18 @@ void CreateSquareVertexColor(CUSTOMVERTEX* Vertex, CENTRAL_STATE Central, DWORD 
 * @brief DXフォント文字設定
 * @param WordHeight 文字の高さ
 * @param WordWidth 文字の幅
-* @param CharSet キャラセット（英字なら１，シフトJISなら128）
 * @param FontName 使用するフォント名
 * @param FontNum 表示文字設定の格納先配列番号
+* @param CharSet キャラセット（英字ならDEFAULT_CHARSET，シフトJISならSHIFTJIS_CHARSET）
 */
 void SetUpFont(int WordHeight, int WordWidth, int FontNum, LPCSTR FontName, int CharSet=DEFAULT_CHARSET);
 /**
 * @brief DXフォント描画設定
 * @param Texts 表示内容
 * @param Vertex 表示範囲
+* @param FontNum 表示文字設定の格納配列番号
 * @param TextFormat フォーマット
 * @param color 色
-* @param FontNum 表示文字設定の格納配列番号
 */
 void WriteWord(LPCSTR Texts, RECT Vertex, int FontNum, int TextFormat=DT_LEFT, int color=0xff000000);
 
@@ -595,7 +596,6 @@ bool BtoBContact(CENTRAL_STATE* central1, CENTRAL_STATE* central2);
 * @param Top 指定範囲の上端
 * @param Right 指定範囲の右端
 * @param Bottom 指定範囲の下端
-* @return 当たっていればTrue
 */
 void MoveInToErea(CENTRAL_STATE* central, float Left, float Top, float Right, float Bottom);
 

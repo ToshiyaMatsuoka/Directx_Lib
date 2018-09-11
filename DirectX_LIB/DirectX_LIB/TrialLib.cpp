@@ -228,7 +228,7 @@ HRESULT InitDirectX(HWND hWnd, LPCSTR pSrcFile) {
 
 	return S_OK;
 }
-HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int ResolutionHeight) {
+HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int ResolutionHeight,int PresentationInterval) {
 	//ダイレクト３Dの初期化関数を呼ぶ
 	if (FALSE(InitD3dFullscreen(hWnd, pSrcFile, ResolutionWidth, ResolutionHeight)))
 	{
@@ -266,11 +266,11 @@ HRESULT InitDirectXFullscreen(HWND hWnd, LPCSTR pSrcFile,int ResolutionWidth,int
 	g_D3dPresentParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	g_D3dPresentParameters.hDeviceWindow = hWnd;
 	g_D3dPresentParameters.Windowed = FALSE;
-	//g_D3dPresentParameters.EnableAutoDepthStencil = FALSE;
-	//g_D3dPresentParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
+	g_D3dPresentParameters.EnableAutoDepthStencil = FALSE;
+	g_D3dPresentParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
 	g_D3dPresentParameters.Flags = 0;
-	g_D3dPresentParameters.FullScreen_RefreshRateInHz = 0;
-	g_D3dPresentParameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
+	g_D3dPresentParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
+	g_D3dPresentParameters.PresentationInterval = PresentationInterval;
 
 	//デバイスを作る
 	g_pDirect3D->CreateDevice(
@@ -390,7 +390,7 @@ int InitWindowEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hI
 		return 0;
 	}
 }
-int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int IconIDI) {
+int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HINSTANCE hInst, HINSTANCE hInstance, LPCSTR pSrcFile, int PresentationInterval, int IconIDI) {
 
 	WNDCLASS Wndclass;
 
@@ -427,7 +427,7 @@ int InitWindowFullscreenEx(LPCSTR WndName, HWND* hWnd, int WIDTH, int HEIGHT, HI
 		return 0;
 	}
 
-	if (FAILED(InitDirectXFullscreen(*hWnd, pSrcFile, WIDTH,HEIGHT)))
+	if (FAILED(InitDirectXFullscreen(*hWnd, pSrcFile, WIDTH,HEIGHT, PresentationInterval)))
 	{
 		return 0;
 	}
