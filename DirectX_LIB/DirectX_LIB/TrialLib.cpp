@@ -669,7 +669,7 @@ void RevolveAndOvalCircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE
 }
 
 //Zé≤âÒì]
-void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -706,7 +706,7 @@ void RevolveZ(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu =
 
 }
 //Zé≤Å@âÒì]é≤éwíË
-void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float RevolvingShaftX,float RevolvingShaftY, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float RevolvingShaftX,float RevolvingShaftY, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
@@ -744,7 +744,7 @@ void RevolveZEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float Rev
 }
 
 //Yé≤âÒì]
-void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexX[4];
 
@@ -776,7 +776,7 @@ void RevolveY(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu =
 
 }
 //Yé≤Å@âÒì]é≤éwíË
-void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftX, float RevolvingShaftZ, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftX, float RevolvingShaftZ, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexX[4];
 
@@ -809,7 +809,7 @@ void RevolveYEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 }
 
 //Xé≤âÒì]
-void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu, float tv, float scaleTu, float scaleTv ) {
 	
 	float CharVertexY[4];
 
@@ -841,7 +841,7 @@ void RevolveX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float tu =
 
 }
 //Xé≤Å@âÒì]é≤éwíË
-void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float RevolvingShaftY, float RevolvingShaftZ, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexY[4];
 
@@ -874,7 +874,7 @@ void RevolveXEX(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central, float Re
 }
 
 //â~â^ìÆ
-void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float motionRadius, float tu = 0, float tv = 0, float scaleTu = 1, float scaleTv = 1) {
+void CircularMotion(CUSTOMVERTEX* Vertex, float Rad, CENTRAL_STATE Central,float motionRadius, float tu, float tv, float scaleTu, float scaleTv ) {
 
 	float CharVertexX[4];
 	float CharVertexY[4];
