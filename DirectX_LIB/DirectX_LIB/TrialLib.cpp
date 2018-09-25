@@ -28,7 +28,7 @@ void FreeDx()
 	SAFE_RELEASE(g_pDirect3D);
 	SAFE_RELEASE(g_pDinput);
 
-	g_pTexture.clear();
+  	g_pTexture.clear();
 	g_pFont.clear();
 	
 }

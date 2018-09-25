@@ -128,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TrialLib.h" />
-    <ClInclude Include="TrialEnums.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
